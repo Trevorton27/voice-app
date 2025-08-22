@@ -1,4 +1,5 @@
 import { Conversation } from './components/conversation';
+import {Voice} from './components/text-to-speech';
 
 export default function Home() {
   return (
@@ -7,7 +8,8 @@ export default function Home() {
         <h1 className="text-4xl font-bold mb-8 text-center">
         Trevor&#39;s  ElevenLabs Conversational AI
         </h1>
-        <Conversation />
+         <Conversation />
+         <Voice />
       </div>
     </main>
   );
