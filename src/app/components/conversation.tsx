@@ -3,6 +3,7 @@
 import { useConversation } from '@elevenlabs/react';
 import { useCallback } from 'react';
 
+
 export function Conversation() {
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
@@ -11,10 +12,30 @@ export function Conversation() {
     onError: (error) => console.error('Error:', error),
   });
 
-
   const startConversation = useCallback(async () => {
+  const agent_id = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
 
-    //const agent_id = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
+  if (!agent_id) {
+    throw new Error('Missing NEXT_PUBLIC_ELEVENLABS_AGENT_ID');
+  }
+
+  try {
+    await navigator.mediaDevices.getUserMedia({ audio: true });
+
+    await conversation.startSession({
+      agentId: agent_id,
+      connectionType: 'webrtc',
+    });
+
+  } catch (error) {
+    console.error('Failed to start conversation:', error);
+  }
+}, [conversation]);
+
+
+  /*const startConversation = useCallback(async () => {
+
+    const agent_id = process.env.NEXT_PUBLIC_ELEVENLABS_AGENT_ID;
     try {
       // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -23,14 +44,14 @@ export function Conversation() {
 
 
       await conversation.startSession({
-        agentId: 'agent_7001k37nwzp4er19keapmscdnq8q',
+        agentId: agent_id,
          connectionType: 'webrtc',
       });
 
     } catch (error) {
       console.error('Failed to start conversation:', error);
     }
-  }, [conversation]);
+  }, [conversation]);*/
 
   const stopConversation = useCallback(async () => {
     await conversation.endSession();
