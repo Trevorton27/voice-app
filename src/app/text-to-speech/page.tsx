@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 
-import { AudioPlayer } from '@/app/text-to-speech/components/audio-player';
+import { AudioPlayer } from './components/audio-player';
 import { TextToSpeechPromptBar } from '@/components/prompt-bar/text-to-speech';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';

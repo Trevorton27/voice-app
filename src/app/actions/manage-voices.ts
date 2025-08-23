@@ -11,7 +11,7 @@ import type {
 } from '@elevenlabs/elevenlabs-js/api';
 
 import { getElevenLabsClient, handleError } from '@/app/actions/utils';
-import { Err, Ok, Result } from '@/types';
+import { Err, Ok, Result } from '../types';
 
 export async function getVoices(): Promise<Result<GetVoicesResponse>> {
   const clientResult = await getElevenLabsClient();

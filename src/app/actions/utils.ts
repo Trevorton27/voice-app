@@ -1,8 +1,8 @@
 import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js';
 
-import { getApiKey } from '@/app/actions/manage-api-key';
-import { env } from '@/env.mjs';
-import { Err, Ok, Result } from '@/types';
+import { getApiKey } from '../actions/manage-api-key'
+import { env } from '../../../env.mjs';
+import { Err, Ok, Result } from '../types';
 
 export async function getElevenLabsClient(): Promise<Result<ElevenLabsClient>> {
   try {

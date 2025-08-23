@@ -14,7 +14,7 @@ import {
   TranscriptionResult,
   WordGroup,
 } from '@/app/speech-to-text/components/transcription-results';
-import { createTranscription } from '@/app/actions/create-transcription';
+import { createTranscription } from '../actions/create-transcription';6
 import { Button } from '@/components/ui/button';
 import { STT_MODELS } from '../../lib /schemas';
 

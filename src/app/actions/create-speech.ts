@@ -3,7 +3,7 @@
 import type { TextToSpeechRequest } from '@elevenlabs/elevenlabs-js/api';
 
 import { getElevenLabsClient, handleError, streamToBase64 } from '@/app/actions/utils';
-import { Err, Ok, Result } from '@/types';
+import { Err, Ok, Result } from '../types';
 
 export async function generateSpeech(
   voiceId: string,

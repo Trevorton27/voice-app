@@ -5,7 +5,7 @@ import { BoltIcon, MicIcon, SparklesIcon, SpeakerIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-import { getVoices } from '@/app/actions/manage-voices';
+import { getVoices } from '../../app/actions/manage-voices';
 import { PromptBar, PromptControlsProps } from '@/components/prompt-bar/base';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,7 +22,7 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useSpeech } from '@/hooks/use-speech';
-import { TtsInput, ttsSchema, TTS_MODELS } from '@/lib/schemas';
+import { TtsInput, ttsSchema, TTS_MODELS } from '../../lib /schemas';
 
 export type TextToSpeechPromptProps = {
   onGenerateStart: (text: string) => string;

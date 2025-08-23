@@ -4,7 +4,7 @@ import { useConversation } from '@elevenlabs/react';
 import { useCallback } from 'react';
 
 
-export function Conversation() {
+export default function Conversation() {
   const conversation = useConversation({
     onConnect: () => console.log('Connected'),
     onDisconnect: () => console.log('Disconnected'),
