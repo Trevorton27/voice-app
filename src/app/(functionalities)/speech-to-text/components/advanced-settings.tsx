@@ -44,7 +44,7 @@ export default function AdvancedSettings({ options, onChange }: AdvancedSettings
                 <Checkbox
                   id="diarization"
                   checked={options.diarize}
-                  onCheckedChange={(checked: boolean | "indeterminate") =>
+                  onCheckedChange={(checked) =>
                     onChange({
                       ...options,
                       diarize: checked === true,
@@ -63,7 +63,7 @@ export default function AdvancedSettings({ options, onChange }: AdvancedSettings
                 <Checkbox
                   id="tag_audio_events"
                   checked={options.tagAudioEvents}
-                  onCheckedChange={(checked: boolean | "indeterminate") =>
+                  onCheckedChange={(checked) =>
                     onChange({
                       ...options,
                       tagAudioEvents: checked === true,
@@ -125,7 +125,7 @@ export default function AdvancedSettings({ options, onChange }: AdvancedSettings
             <h4 className="font-medium">Timestamp Granularity</h4>
             <RadioGroup
               value={options.timestampsGranularity}
-              onValueChange={(value: string) =>
+              onValueChange={(value) =>
                 onChange({
                   ...options,
                   timestampsGranularity: value as 'none' | 'word' | 'character',

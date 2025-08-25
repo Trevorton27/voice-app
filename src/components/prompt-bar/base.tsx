@@ -10,7 +10,8 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { cn } from '../../lib /cn';
+import { cn } from '@/lib /cn';
+
 
 export type PromptControlsProps<T extends FieldValues> = {
   form: UseFormReturn<T>;

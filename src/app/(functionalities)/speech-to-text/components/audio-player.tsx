@@ -3,14 +3,14 @@
 import { useEffect, useRef } from 'react';
 
 interface AudioPlayerProps {
-  url: string | null;
+  src: string | null;
   onPlayStateChange: (isPlaying: boolean) => void;
   onTimeUpdate: (currentTime: number) => void;
   onAudioRef: (ref: HTMLAudioElement | null) => void;
 }
 
 export function AudioPlayer({
-  url,
+  src,
   onPlayStateChange,
   onTimeUpdate,
   onAudioRef,
@@ -53,7 +53,7 @@ export function AudioPlayer({
     };
   }, [onPlayStateChange, onTimeUpdate, onAudioRef]);
 
-  if (!url) return null;
+  if (!src) return null;
 
-  return <audio ref={audioRef} src={url} className="w-full" controls={true} preload="auto" />;
+  return <audio ref={audioRef} src={src} className="w-full" controls={true} preload="auto" />;
 }

@@ -6,19 +6,19 @@ import { toast } from 'sonner';
 
 import AdvancedSettings, {
   TranscriptionOptions,
-} from '@/app/speech-to-text/components/advanced-settings';
-import { AudioPlayer } from '@/app/speech-to-text/components/audio-player';
-import { FileUpload } from '@/app/speech-to-text/components/file-upload';
+} from '@/app/(functionalities)/speech-to-text/components/advanced-settings';
+import { AudioPlayer } from '@/app/(functionalities)/speech-to-text/components/audio-player';
+import { FileUpload } from '@/app/(functionalities)/speech-to-text/components/file-upload';
 import {
   TranscriptionResults,
   TranscriptionResult,
   WordGroup,
-} from '@/app/speech-to-text/components/transcription-results';
-import { createTranscription } from '../actions/create-transcription';6
+} from '@/app/(functionalities)/speech-to-text/components/transcription-results';
+import { createTranscription } from '@/app/actions/create-transcription';
 import { Button } from '@/components/ui/button';
-import { STT_MODELS } from '../../lib /schemas';
+import { STT_MODELS } from '@/lib /schemas';
 
-import { groupWordsBySpeaker } from './utils/transcription-utils';
+import { groupWordsBySpeaker } from './lib/transcription-utils';
 
 type ViewState = 'upload' | 'result';
 
@@ -249,7 +249,7 @@ export default function Page() {
 
       <div className="space-y-6">
         <AudioPlayer
-          url={audio.url}
+          src={audio.url}
           onPlayStateChange={(isPlaying) => setAudio((prev) => ({ ...prev, isPlaying }))}
           onTimeUpdate={(currentTime) => setAudio((prev) => ({ ...prev, currentTime }))}
           onAudioRef={(ref) => (audioRef.current = ref)}
