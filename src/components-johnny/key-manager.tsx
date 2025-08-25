@@ -7,7 +7,7 @@ import { useKey } from '@/components/key-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
-import { cn } from '../lib /cn';
+import { cn } from '../lib/cn';
 
 export const KeyManager = () => {
   const [key, setKey] = useKey();

@@ -16,7 +16,7 @@ import {
 } from '@/app/(functionalities)/speech-to-text/components/transcription-results';
 import { createTranscription } from '@/app/actions/create-transcription';
 import { Button } from '@/components/ui/button';
-import { STT_MODELS } from '@/lib /schemas';
+import { STT_MODELS } from '@/lib/schemas';
 
 import { groupWordsBySpeaker } from './lib/transcription-utils';
 

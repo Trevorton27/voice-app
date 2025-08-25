@@ -22,7 +22,7 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useSpeech } from '@/hooks/use-speech';
-import { TtsInput, ttsSchema, TTS_MODELS } from '../../lib /schemas';
+import { TtsInput, ttsSchema, TTS_MODELS } from '../../lib/schemas';
 
 export type TextToSpeechPromptProps = {
   onGenerateStart: (text: string) => string;

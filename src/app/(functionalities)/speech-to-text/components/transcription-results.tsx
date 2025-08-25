@@ -5,7 +5,7 @@ import { UserIcon } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib /cn';
+import { cn } from '@/lib/cn';
 
 import { TranscriptionOptions } from './advanced-settings';
 
