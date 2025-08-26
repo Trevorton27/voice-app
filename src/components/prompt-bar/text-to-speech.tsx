@@ -457,8 +457,8 @@ export function TextToSpeechPromptBar({
 }
 
 const FEATURED_VOICES = [
-  { id: 'EkK5I93UQWFDigLMpZcX', name: 'James', accent: 'American' },
-  { id: 'RILOU7YmBhvwJGDGjNmP', name: 'Jane', accent: 'American' },
+  { id: 'DGzg6RaUqxGRTHSBjfgF', name: 'Sergeant', accent: 'American' },
+  { id: 'LG95yZDEHg6fCZdQjLqj', name: 'WWF Announcer', accent: 'American' },
   { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', accent: 'American' },
   { id: 'AZnzlk1XvdvUeBnXmlld', name: 'Domi', accent: 'American' },
   { id: 'IKne3meq5aSn9XLyUdCD', name: 'Adam', accent: 'American' },
