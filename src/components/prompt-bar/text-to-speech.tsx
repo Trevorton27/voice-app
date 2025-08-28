@@ -446,7 +446,7 @@ export function TextToSpeechPromptBar({
       schema={ttsSchema}
       defaultValues={defaultValues}
       promptFieldName="text"
-      placeholder="Enter text to convert to speech..."
+      placeholder="Enter text to convert to speech you can select which voice and which model to use via the dropdowns in the input bar"
       submitTooltip="Generate speech"
       leftControls={renderControls}
       rightControls={renderRightControls}

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+
 //used to test local connecivity to GCS bucket
 //run with `curl http://localhost:<port number>/api/bucket`
 export const runtime = "nodejs";
