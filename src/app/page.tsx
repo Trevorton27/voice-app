@@ -23,7 +23,7 @@ export default function Home() {
           {/* Nav Section Overview */}
           <div className="space-y-12 mb-16 text-left">
             <div>
-              <h2 className="text-2xl font-bold mb-4">🔍 App Sections</h2>
+              <h2 className="text-2xl font-bold mb-4">App Sections</h2>
               <ul className="list-disc list-inside space-y-4 text-base md:text-lg text-muted-foreground">
                 <li>
                   <strong>Conversational AI:</strong> Live interface to start and stop conversations
@@ -43,7 +43,7 @@ export default function Home() {
 
             {/* About Trevor Section */}
             <div>
-              <h2 className="text-2xl font-bold mb-4">🧑 About Trevor</h2>
+              <h2 className="text-2xl font-bold mb-4"> About Trevor</h2>
               <p className="text-base md:text-lg text-muted-foreground mb-4">
                 Trevor Mearns is a dynamic fullstack developer, professional educator, and support
                 wizard. Born in Seattle, he now calls Japan home and brings a global, multilingual
