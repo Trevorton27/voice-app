@@ -171,85 +171,89 @@ export default function Page() {
   /** ---------- UI ---------- */
 
   const renderUploadView = () => (
-    <div className="flex flex-col px-6 py-10">
-      {/* Title + subcopy centered to match landing-page vibe */}
-      <div className="mx-auto mb-10 max-w-3xl text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          Speech to Text
-        </h1>
-        <p className="mt-4 text-sm md:text-base text-muted-foreground">
-          Convert speech to text with timestamps and optional speaker diarization.
-        </p>
-      </div>
+<div className="flex flex-col px-6 py-10">
+  {/* Title + subcopy and Help button in the same row */}
+  <div className="mb-10 flex items-start justify-between max-w-5xl mx-auto w-full">
+    {/* Title + subcopy centered */}
+    <div className="flex-1 text-center">
+      <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+        Speech to Text
+      </h1>
+      <p className="mt-4 text-sm md:text-base text-muted-foreground">
+        Convert speech to text with timestamps and optional speaker diarization.
+      </p>
+    </div>
 
-      {/* Help button aligned to the right like an action */}
-  <div className="mb-[80px] flex">
-  <Button
-    variant="outline"
-    size="sm"
-    className="ml-[90px] flex items-center gap-1.5 w-auto"
-    onClick={() => setHelpOpen(true)}
-  >
-    <HelpCircle className="h-4 w-4" />
-    How to use
-  </Button>
+    {/* Help button on the right */}
+    <Button
+      variant="outline"
+      size="sm"
+      className="ml-10 flex items-center gap-1.5 bg-black text-white border border-white hover:bg-gray-900"
+      onClick={() => setHelpOpen(true)}
+    >
+      <HelpCircle className="h-4 w-4" />
+      How to use
+    </Button>
+  </div>
+
+  {/* Uploader + settings */}
+  <div className="mx-auto w-full max-w-3xl">
+    <FileUpload
+      file={audio.file}
+      onFileChange={handleFileChange}
+      disabled={transcription.isProcessing}
+    />
+
+    <div className="mt-6">
+      <AdvancedSettings
+        options={transcriptionOptions}
+        onChange={setTranscriptionOptions}
+      />
+    </div>
+
+    {/* Centered green CTA button */}
+    <div className="mt-8 flex justify-center">
+      <Button
+        size="lg"
+        onClick={handleTranscribe}
+        disabled={!audio.file || transcription.isProcessing}
+        className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-8 py-3 font-semibold text-white shadow-lg hover:bg-green-500 disabled:opacity-60"
+      >
+        {transcription.isProcessing ? (
+          <>
+            <svg
+              className="h-5 w-5 animate-spin"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+            Transcribing…
+          </>
+        ) : (
+          <>
+            <Mic className="h-5 w-5" />
+            Transcribe Audio
+          </>
+        )}
+      </Button>
+    </div>
+  </div>
 </div>
 
-
-      {/* Uploader + settings */}
-      <div className="mx-auto w-full max-w-3xl">
-        <FileUpload
-          file={audio.file}
-          onFileChange={handleFileChange}
-          disabled={transcription.isProcessing}
-        />
-
-        <div className="mt-6">
-          <AdvancedSettings options={transcriptionOptions} onChange={setTranscriptionOptions} />
-        </div>
-
-        {/* Centered green CTA button */}
-        <div className="mt-8 flex justify-center">
-          <Button
-            size="lg"
-            onClick={handleTranscribe}
-            disabled={!audio.file || transcription.isProcessing}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-8 py-3 font-semibold text-black shadow-lg hover:bg-green-500 disabled:opacity-60"
-          >
-            {transcription.isProcessing ? (
-              <>
-                <svg
-                  className="h-5 w-5 animate-spin"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                Transcribing…
-              </>
-            ) : (
-              <>
-                <Mic className="h-5 w-5" />
-                Transcribe Audio
-              </>
-            )}
-          </Button>
-        </div>
-      </div>
-    </div>
   );
 
   const renderResultView = () => (

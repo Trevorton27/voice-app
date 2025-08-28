@@ -10,12 +10,22 @@ import { AudioPlayer } from "./components/audio-player";
 import { TextToSpeechPromptBar } from "@/components/prompt-bar/text-to-speech";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/cn";
 
 export default function TextToSpeechPage() {
   const [speeches, setSpeeches] = useState<GeneratedSpeech[]>([]);
   const [selectedSpeech, setSelectedSpeech] = useState<GeneratedSpeech | null>(null);
   const [autoplay] = useState(true);
+  const [helpOpen, setHelpOpen] = useState(false);
 
   // Load existing files from GCP bucket on page load
   useEffect(() => {
@@ -113,9 +123,21 @@ export default function TextToSpeechPage() {
     <div className="relative">
       <div className="container mx-auto px-6 pt-8">
         {/* Title row */}
-        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
-          Text to speech
-        </h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+            Text To Speech
+          </h1>
+
+          {/* How To Use button (black bg, white text, white border) */}
+          <Button
+            onClick={() => setHelpOpen(true)}
+            className="mr-150 bg-black text-white border border-white hover:bg-gray-900"
+            size="sm"
+            variant="outline"
+          >
+            How To Use
+          </Button>
+        </div>
 
         {/* Main grid */}
         <div className="mt-6 grid grid-cols-1 gap-10 md:grid-cols-[1fr_340px]">
@@ -177,7 +199,6 @@ export default function TextToSpeechPage() {
                       ) : (
                         <p className="text-xs text-white/50">
                           {formatDistanceToNow(
-                            // tolerate string or Date
                             new Date(speech.createdAt as unknown as string),
                             { addSuffix: true }
                           )}
@@ -201,6 +222,51 @@ export default function TextToSpeechPage() {
           />
         </div>
       </div>
+
+      {/* ---------- How To Use Modal (no top X) ---------- */}
+      <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
+        <DialogContent className="max-w-xl rounded-xl bg-white p-6 text-slate-900 shadow-xl [&>button]:hidden">
+          <DialogHeader className="text-left space-y-2">
+            <DialogTitle className="text-2xl font-extrabold tracking-tight">
+              How to use Text to speech
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Quick guide to creating and playing speech from text.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-1 space-y-3 text-[15px] leading-relaxed">
+            <p>
+              <strong>1) Type your text:</strong> Use the input bar at the bottom of the page.
+            </p>
+            <p>
+              <strong>2) Choose voice &amp; model (optional):</strong> Pick a voice and model from the
+              dropdowns inside the bar.
+            </p>
+            <p>
+              <strong>3) Generate:</strong> Submit the form to synthesize audio. A new item will appear
+              under <em>Previous Conversions</em> on the right and the sound controls for the selected item will appear in the center of the screen.
+            </p>
+            <p>
+              <strong>4) Play &amp; review:</strong> Click a conversion on the right to load it in the
+              main player. Use the controls to listen.
+            </p>
+            <p>
+              <strong>5) Create more:</strong> Add more lines of text in the bottom bar; each
+              generation will be listed on the right for easy access.
+            </p>
+            <p className="text-slate-600">
+              Tip: If a generation fails, try shorter text or a different model/voice.
+            </p>
+          </div>
+
+          <DialogFooter className="mt-6 justify-end">
+            <Button onClick={() => setHelpOpen(false)} className="px-6">
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
