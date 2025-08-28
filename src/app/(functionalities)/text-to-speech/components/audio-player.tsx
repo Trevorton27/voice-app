@@ -39,7 +39,7 @@ export function AudioPlayer({ audioBase64, autoplay = true, className }: AudioPl
 
         if (autoplay) {
           const playPromise = audio.play();
-
+console.log('playPromise:', playPromise);
           if (playPromise !== undefined) {
             playPromise.catch((err) => {
               console.error('Failed to autoplay audio:', err);
