@@ -9,21 +9,22 @@ export default function Home() {
           Trevor&apos;s ElevenLabs AI Voice App
         </h1>
 
-        <div className="max-w-4xl mx-auto text-center leading-relaxed">
+        <div className="max-w-4xl mx-auto leading-relaxed">
           {/* Summary */}
-          <p className="text-base md:text-lg text-muted-foreground mb-12">
+          <p className="text-base md:text-lg text-muted-foreground mb-4">
             A full-featured voice assistant interface built with{' '}
             <strong>Next.js</strong>, powered by the{' '}
-            <strong>ElevenLabs Conversational AI API</strong>, and deployed globally via{' '}
-            <strong>Vercel</strong>. Users can speak with{' '}
-            <span className="font-semibold">Rachel</span>, a proactive and human-like voice agent—perfect for
-            demonstrating ElevenLabs’ conversational capabilities.
+            <strong>ElevenLabs API</strong>, and deployed globally via{' '}
+            <strong>Vercel</strong>. 
+            </p>
+            <p className="text-base md:text-lg text-muted-foreground mb-14">
+            The inspiration for this project came from my desire to demonstrate proficiency in integrating APIs, web development and the fact that I love solving problems and creating solutions.
           </p>
 
           {/* Nav Section Overview */}
           <div className="space-y-12 mb-16 text-left">
             <div>
-              <h2 className="text-2xl font-bold mb-4">App Sections</h2>
+              <h2 className="text-4xl font-bold mb-4">App Sections</h2>
               <ul className="list-disc list-inside space-y-4 text-base md:text-lg text-muted-foreground">
                 <li>
                   <strong>Conversational AI:</strong> Live interface to start and stop conversations
@@ -31,19 +32,19 @@ export default function Home() {
                   (connected, speaking, listening). Powered by the Conversational AI API.
                 </li>
                 <li>
-                  <strong>Text to Speech:</strong> Enter text and hear it spoken back in Rachel’s
-                  voice using ElevenLabs&apos; ultra-realistic TTS.
+                  <strong>Text to Speech:</strong> Enter text and hear it spoken back in from a list of different voices to choose from. All conversions are saved on Google Cloud for easy retrieval.
+                  voice using ElevenLabs&apos; ultra-realistic TTS. All conversions are saved on Google Cloud for easy retrieval.
                 </li>
                 <li>
                   <strong>Speech to Text:</strong> (Optional) Use ElevenLabs&apos; STT to transcribe
-                  spoken audio into accurate, real-time text.
+                  spoken audio into accurate, real-time text. Users also have the option to download conversions to their local device as .txt files.
                 </li>
               </ul>
             </div>
 
             {/* About Trevor Section */}
             <div>
-              <h2 className="text-2xl font-bold mb-4"> About Trevor</h2>
+              <h2 className="text-4xl font-bold mb-4"> About Trevor</h2>
               <p className="text-base md:text-lg text-muted-foreground mb-4">
                 Trevor Mearns is a dynamic fullstack developer, professional educator, and support
                 wizard. Born in Seattle, he now calls Japan home and brings a global, multilingual

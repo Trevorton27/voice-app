@@ -274,8 +274,12 @@ export default function TextToSpeechPage() {
 const EmptyState = () => (
   <div className="flex flex-col items-center justify-center gap-4 text-center">
     <p className="max-w-xl text-sm text-white/70">
-      Select a speech to play from the collection on the right or create a new
-      conversion via the text input below.
+      Select a speech to play from the collection on the right.
+      
+      <p>OR</p>
+      
+      <p>Create a new
+      conversion via the text input below.</p> 
     </p>
   </div>
 );

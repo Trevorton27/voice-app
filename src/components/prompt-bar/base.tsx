@@ -152,19 +152,22 @@ export function PromptBar<T extends z.ZodType>({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button
-                      size="icon"
-                      disabled={!promptValue || isProcessing}
-                      className="h-[36px] w-[36px] rounded-full bg-white p-1.5 text-zinc-900 hover:bg-white/80"
-                      type="submit"
-                    >
-                      {isProcessing ? (
-                        <Loader2Icon className="h-6 w-6 animate-spin" />
-                      ) : (
-                        <ArrowUpIcon className="h-6 w-6" />
-                      )}
-                      <span className="sr-only">{submitTooltip}</span>
-                    </Button>
+                   <Button
+  size="lg"
+  disabled={!promptValue || isProcessing}
+  type="submit"
+  className="rounded-lg bg-green-600 px-6 py-3 font-semibold text-white shadow hover:bg-green-500 disabled:opacity-60"
+>
+  {isProcessing ? (
+    <div className="flex items-center gap-2">
+      <Loader2Icon className="h-5 w-5 animate-spin" />
+      Processing…
+    </div>
+  ) : (
+    "Submit Text For Conversion"
+  )}
+</Button>
+
                   </TooltipTrigger>
                   <TooltipContent className="border border-white/10 bg-[#2B2B2B] text-white">
                     <p>
