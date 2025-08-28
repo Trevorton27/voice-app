@@ -50,7 +50,7 @@ export default function TextToSpeechPage() {
       id: nanoid(),
       text,
       audioBase64: "",
-      createdAt: new Date(),
+      createdAt: new Date(), // local optimistic timestamp
       status: "loading",
     };
     setSpeeches((prev) => [pendingSpeech, ...prev]);
@@ -71,12 +71,17 @@ export default function TextToSpeechPage() {
       }
 
       try {
+        // fetch the audio data the model produced
         const response = await fetch(audioUrl);
         const blob = await response.blob();
         const filename = `${id}.mp3`;
 
+        // send file + id + text (+ optional folder prefix) to the API route
         const formData = new FormData();
         formData.append("file", new File([blob], filename, { type: blob.type }));
+        formData.append("id", id);                  // 👈 ensure id is stored
+        formData.append("text", text);              // 👈 ensure text is stored
+        formData.append("prefix", "speeches");      // keep objects in a folder
 
         const res = await fetch("/api/gcp-upload", {
           method: "POST",
@@ -86,14 +91,17 @@ export default function TextToSpeechPage() {
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.error || "Upload failed");
 
+        // Use echoed values from server (id/text) to avoid any drift
         setSpeeches((prev) =>
           prev.map((item) =>
             item.id === id
               ? {
                   ...item,
-                  text,
-                  audioBase64: data.url,
+                  id: data.id,
+                  text: data.text,
+                  audioBase64: data.url, // signed URL
                   status: "complete" as const,
+                  createdAt: item.createdAt, // keep optimistic timestamp
                 }
               : item
           )
@@ -101,7 +109,7 @@ export default function TextToSpeechPage() {
 
         setSelectedSpeech((current) =>
           current?.id === id
-            ? { ...current, text, audioBase64: data.url, status: "complete" }
+            ? { ...current, id: data.id, text: data.text, audioBase64: data.url, status: "complete" }
             : current
         );
 
@@ -131,7 +139,7 @@ export default function TextToSpeechPage() {
           {/* How To Use button (black bg, white text, white border) */}
           <Button
             onClick={() => setHelpOpen(true)}
-            className="mr-150 bg-black text-white border border-white hover:bg-gray-900"
+            className="bg-black text-white border border-white hover:bg-gray-900"
             size="sm"
             variant="outline"
           >
@@ -245,7 +253,7 @@ export default function TextToSpeechPage() {
             </p>
             <p>
               <strong>3) Generate:</strong> Submit the form to synthesize audio. A new item will appear
-              under <em>Previous Conversions</em> on the right and the sound controls for the selected item will appear in the center of the screen.
+              under <em>Previous Conversions</em> on the right and the sound controls for the selected item will appear in the center.
             </p>
             <p>
               <strong>4) Play &amp; review:</strong> Click a conversion on the right to load it in the
@@ -275,11 +283,8 @@ const EmptyState = () => (
   <div className="flex flex-col items-center justify-center gap-4 text-center">
     <p className="max-w-xl text-sm text-white/70">
       Select a speech to play from the collection on the right.
-      
-      <p>OR</p>
-      
-      <p>Create a new
-      conversion via the text input below.</p> 
+      <br />
+      OR create a new conversion via the text input below.
     </p>
   </div>
 );

@@ -9,27 +9,31 @@ export const dynamic = 'force-dynamic';
 const BUCKET = process.env.GCS_BUCKET ?? '';
 
 /** Load SA credentials from ONE of:
- *  - GOOGLE_APPLICATION_CREDENTIALS_JSON  (raw JSON string on one line)
  *  - GOOGLE_APPLICATION_CREDENTIALS_B64   (base64 of the full JSON)
+ *  - GOOGLE_APPLICATION_CREDENTIALS_JSON  (raw JSON string, one line)
  *  - GOOGLE_APPLICATION_CREDENTIALS_PATH  (absolute path to key.json)
  */
 function loadCreds(): { client_email: string; private_key: string } {
-  const rawJson = process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON ?
-        Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON , 'base64').toString('utf8')
+  const rawJson =process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON 
+      ? Buffer.from(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON , 'base64').toString('utf8')
      : undefined;
-
+console.log("rawJson:", rawJson);
   if (rawJson) {
-    const j = JSON.parse(rawJson);
-    return { client_email: j.client_email, private_key: j.private_key };
+    const parsed = JSON.parse(rawJson);
+    if (!parsed.client_email || !parsed.private_key) {
+      throw new Error('Credentials JSON missing client_email or private_key');
+    }
+    return parsed;
   }
 
+  // Or load from a file
   const path = process.env.GOOGLE_APPLICATION_CREDENTIALS_PATH;
   if (path) {
     const j = JSON.parse(fs.readFileSync(path, 'utf8'));
     return { client_email: j.client_email, private_key: j.private_key };
   }
 
-  throw new Error('Missing credentials: set JSON, B64, or PATH env for service account.');
+  throw new Error('Missing credentials: set *_B64, *_JSON, or *_PATH env for service account.');
 }
 
 function getStorage() {
@@ -65,9 +69,9 @@ function stripExt(s: string) {
  */
 function parseIdFromName(name: string): string {
   const justName = name.split('/').pop() || name;
-  const parts = justName.split('-');           // ["1756...", "<id>.mp3"]
+  const parts = justName.split('-');         // ["1756...", "<id>.mp3"]
   if (parts.length < 2) return stripExt(justName);
-  return stripExt(parts[1]);                   // "<id>"
+  return stripExt(parts[1]);                 // "<id>"
 }
 
 /** GET /api/gcp-upload — list objects and return your app's shape */
@@ -77,7 +81,7 @@ export async function GET() {
     const s = getStorage();
     const bucket = s.bucket(BUCKET);
 
-    // Add { prefix: 'speeches/' } if you keep everything under that folder
+    // Add { prefix: 'speeches/' } if you keep everything in that folder
     const [files] = await bucket.getFiles();
 
     const items = await Promise.all(
@@ -86,7 +90,7 @@ export async function GET() {
         const createdAtISO =
           (f.metadata?.timeCreated as string | undefined) ?? new Date().toISOString();
 
-        // Prefer a base64-encoded text we stored; fallback to plain text; then to filename.
+        // Prefer base64 metadata for robustness; fallback to plain; then filename
         const decodedText =
           meta.text_b64
             ? Buffer.from(meta.text_b64, 'base64').toString('utf8')
@@ -94,9 +98,11 @@ export async function GET() {
 
         return {
           id: meta.id ?? parseIdFromName(f.name),
-          text: decodedText ?? stripExt(f.name),
-          audioBase64: await signedReadUrl(f),   // playable URL
-          createdAt: createdAtISO,               // ISO string; convert to Date in client if desired
+          text:
+            decodedText ??
+            (meta.originalName ? stripExt(meta.originalName) : stripExt(f.name)),
+          audioBase64: await signedReadUrl(f), // signed URL your player uses
+          createdAt: createdAtISO,             // keep as ISO string
           status: 'complete' as const,
         };
       })
@@ -136,14 +142,13 @@ export async function POST(req: Request) {
 
     const original = safeName((file as File).name || 'audio.mp3');
 
-    // Keep your existing naming pattern: <prefix>/<timestamp>-<original>
-    // (where original is typically "<id>.mp3" from the client)
+    // Keep naming pattern: <prefix>/<timestamp>-<original> (original is usually "<id>.mp3")
     const objectName = `${prefix}/${Date.now()}-${original}`;
     const blob = bucket.file(objectName);
 
     const buffer = Buffer.from(await (file as File).arrayBuffer());
 
-    // Store text redundantly: plain and base64 (more robust with unicode/quotes)
+    // Store text redundantly (plain + base64). Handles quotes/unicode safely.
     const textB64 = providedText
       ? Buffer.from(providedText, 'utf8').toString('base64')
       : undefined;
