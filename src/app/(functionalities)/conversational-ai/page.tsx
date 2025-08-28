@@ -72,12 +72,13 @@ export default function Conversation() {
             Agent is {conversation.isSpeaking ? 'speaking' : 'listening'}
           </p>
 
-          <button
-            onClick={() => setShowModal(true)}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-          >
-            Learn More About Rachel
-          </button>
+       <button
+  onClick={() => setShowModal(true)}
+  className="mt-4 px-4 py-2 bg-black text-white border border-white rounded-md hover:bg-gray-900 transition"
+>
+  Learn More About Rachel
+</button>
+
         </div>
       </div>
 
